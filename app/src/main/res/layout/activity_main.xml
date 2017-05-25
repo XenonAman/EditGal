@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:addStatesFromChildren="false"
+    tools:context="com.example.amank.edit.MainActivity">
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:hint="Document Name..."
+        android:inputType="text"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editText"
+        android:layout_marginTop="18dp"
+        android:ems="10"
+        android:hint="Kitna Mall Dena Hai"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/duedatesecE"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editText2"
+        android:layout_marginTop="18dp"
+        android:ems="10"
+        android:hint="Jama karne ka Din"
+        android:inputType="date" />
+
+    <ImageButton
+        android:id="@+id/cal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_my_calendar"
+        android:layout_alignTop="@+id/duedatesecE"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ExpandableListView
+        android:id="@+id/expandableListView"
+        android:layout_width="4dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/duedatesecE"
+        android:layout_marginTop="12dp"
+        android:background="@color/colorAccent" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/daba"
+        android:layout_alignStart="@+id/daba"
+        android:layout_alignTop="@+id/expandableListView"
+        android:layout_marginLeft="17dp"
+        android:layout_marginStart="17dp"
+        android:hint="Due Reminder" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="21dp"
+        android:text="Scan Maar Le"
+        android:textSize="18sp"
+        android:layout_below="@+id/expandableListView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:id="@+id/daba"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        android:layout_marginLeft="19dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="11dp"
+        android:onClick="dabaya"
+        android:layout_below="@+id/textView"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView" />
+
+    <ImageView
+        android:id="@+id/imgdikha"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:srcCompat="@color/colorPrimaryDark"
+        android:layout_alignBottom="@+id/daba"
+        android:layout_toLeftOf="@+id/cal"
+        android:layout_toStartOf="@+id/cal" />
+
+    <EditText
+        android:id="@+id/editText5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/daba"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Note Daal De"
+        android:inputType="textMultiLine" />
+
+    <EditText
+        android:id="@+id/urldala"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editText5"
+        android:layout_alignStart="@+id/editText5"
+        android:layout_below="@+id/editText5"
+        android:layout_marginTop="17dp"
+        android:ems="10"
+        android:hint="URL daal o v sahi wala"
+        android:inputType="textPersonName"
+        android:layout_alignRight="@+id/duedatesecE"
+        android:layout_alignEnd="@+id/duedatesecE" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal"
+        android:layout_below="@+id/urldala"
+        android:id="@+id/linearLayout">
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/webkhol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="webkholdia"
+        android:layout_above="@+id/linearLayout"
+        android:layout_toEndOf="@+id/imgdikha"
+        android:layout_toRightOf="@+id/imgdikha"
+        app:srcCompat="@android:drawable/ic_menu_send" />
+
+
+
+</RelativeLayout>
