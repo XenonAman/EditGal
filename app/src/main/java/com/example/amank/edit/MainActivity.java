@@ -30,8 +30,10 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
-    String[] items = new String[] { "Due date","1 day prior", "2 day prior", "3 day prior","4 day prior","5 day prior","6 day prior","1 week prior" };
+public class MainActivity extends AppCompatActivity
+{
+
+    String[] items = new String[] { "On Due date","1 day prior", "2 day prior", "3 day prior","4 day prior","5 day prior","6 day prior","1 week prior" };
     EditText dd,url1;
     ImageButton btn,but;
     public static final int REQUEST_CAPTURE= 1;
@@ -41,13 +43,15 @@ public class MainActivity extends AppCompatActivity {
     static final int DILOG_ID = 0;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);     //soft keybord shift
+
         showDialogOnImageButtonClickListener();
 
-         final Calendar tarik = Calendar.getInstance();
+        final Calendar tarik = Calendar.getInstance();
         year_x =  tarik.get(Calendar.YEAR);
         month_x = tarik.get(Calendar.MONTH);
         day_x = tarik.get(Calendar.DAY_OF_MONTH);
@@ -58,13 +62,14 @@ public class MainActivity extends AppCompatActivity {
 
         url1 = (EditText)findViewById(R.id.urldala);
 
+
         if(!hasCamers()){
             but.setEnabled(false);
         }
 
+        //-----Spinner ka Code------------//
 
-        Spinner dynamicSpinner = (Spinner) findViewById(R.id.spinner);
-
+        Spinner dynamicSpinner = (Spinner)findViewById(R.id.spinner);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, items);
@@ -85,12 +90,18 @@ public class MainActivity extends AppCompatActivity {
 
           }
       });
-    }
+      //--------Spinner ka Code khatam----------//
+
+    }       //--------Idher OnCreate method khatam-------------//
+
+    //--------Camera API ka CODE------------//
+
     public boolean hasCamers()
     {
         return getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
     }
-    public void showDialogOnImageButtonClickListener(){
+    public void showDialogOnImageButtonClickListener()
+    {
 
         btn = (ImageButton)findViewById(R.id.cal);
 
@@ -118,7 +129,9 @@ public class MainActivity extends AppCompatActivity {
             img1.setImageBitmap(photo);
         }
     }
+    //--------Camera API ka CODE khatam------------//
 
+    //--------Date Picker ka CODE------------//
 
 
     @Override
@@ -141,7 +154,10 @@ public class MainActivity extends AppCompatActivity {
             dd.setText(day_x +"/"+ month_x +"/" + year_x);
         }
     };
+    //--------Date Picker ka CODE khatam------------//
 
+
+    //--------Save Button ka CODE------------//
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.savey,menu);
@@ -149,11 +165,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void savekar(MenuItem item) {
-    }
 
-    public void webkholdia(View view) {
+    }
+    //--------Save Button ka CODE khatam------------//
+
+
+    //--------URL Button ka CODE------------//
+
+    public void webkholdia(View view)
+    {
         Intent browserIntent  = new Intent(Intent.ACTION_VIEW, Uri.parse("http://"+url1.getText()));
         startActivity(browserIntent);
     }
-}
+
+
+}   //---ye main activity ka bracket-------//
 
