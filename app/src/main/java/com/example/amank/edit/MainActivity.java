@@ -3,11 +3,15 @@ package com.example.amank.edit;
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -35,9 +39,13 @@ public class MainActivity extends AppCompatActivity
 
     String[] items = new String[] { "On Due date","1 day prior", "2 day prior", "3 day prior","4 day prior","5 day prior","6 day prior","1 week prior" };
     EditText dd,url1;
+    EditText doctitle,amount;
     ImageButton btn,but;
     public static final int REQUEST_CAPTURE= 1;
     ImageView img1;
+    DatabaseHelper myDB;
+
+    Button btnAddwa,cancu;
 
     int year_x,month_x,day_x;
     static final int DILOG_ID = 0;
@@ -48,6 +56,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);     //soft keybord shift
+        myDB = new DatabaseHelper(this);
+
 
         showDialogOnImageButtonClickListener();
 
@@ -57,6 +67,11 @@ public class MainActivity extends AppCompatActivity
         day_x = tarik.get(Calendar.DAY_OF_MONTH);
 
         dd = (EditText) findViewById(R.id.duedatesecE);
+        doctitle = (EditText) findViewById(R.id.doctitle);
+        amount = (EditText) findViewById(R.id.amount);
+
+        btnAddwa = (Button) findViewById(R.id.btnAdder);
+        cancu = (Button) findViewById(R.id.cancelbaby);
          but =(ImageButton)findViewById(R.id.daba);
         img1 = (ImageView)findViewById(R.id.imgdikha);
 
@@ -91,8 +106,68 @@ public class MainActivity extends AppCompatActivity
           }
       });
       //--------Spinner ka Code khatam----------//
-
+        AddData();
+        showToast();
     }       //--------Idher OnCreate method khatam-------------//
+
+    private void showToast() {
+        cancu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cursor res = myDB.getALLData();
+                Log.i("chickening","Bickening");
+                if(res.getCount() == 0){
+                    //show message
+                    Log.i("inside if","khaaliwala");
+                    return;
+                }
+
+                StringBuffer buffer = new StringBuffer();
+                while (res.moveToNext()){
+                    Log.i("inside","cursor");
+                    buffer.append("Id : "+res.getString(0)+ "\n");
+                    buffer.append("Name : "+res.getString(1)+ "\n");
+                    buffer.append("Marks : "+res.getString(2)+ "\n\n");
+                    Log.i("inside","cursorEnd");
+
+
+
+                }
+                Log.i("outside","whileloop");
+                //show data
+
+                Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void AddData() {
+        btnAddwa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isInserted = myDB.insertData(doctitle.getText().toString(),amount.getText().toString(),ImagetoByte(img1));
+                if(isInserted == true){
+                    Toast.makeText(MainActivity.this, "Data inserted!", Toast.LENGTH_SHORT).show();
+                }else
+                {
+                    Toast.makeText(MainActivity.this, "Data not Inserted", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            private byte[] ImagetoByte(ImageView img1) {
+                    Bitmap bitmap = ((BitmapDrawable)img1.getDrawable()).getBitmap();
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    return byteArray;
+
+            }
+
+        });
+
+    }
+
+
 
     //--------Camera API ka CODE------------//
 
