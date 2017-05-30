@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
 {
+    static MainActivity activityA;
 
     String[] items = new String[] { "On Due date","1 day prior", "2 day prior", "3 day prior","4 day prior","5 day prior","6 day prior","1 week prior" };
     EditText dd,url1;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);     //soft keybord shift
+
         myDB = new DatabaseHelper(this);
 
 
@@ -108,35 +111,24 @@ public class MainActivity extends AppCompatActivity
       //--------Spinner ka Code khatam----------//
         AddData();
         showToast();
+        activityA = this;
+
+
     }       //--------Idher OnCreate method khatam-------------//
+
+
+    public static MainActivity getInstance(){
+        return activityA;
+    }
 
     private void showToast() {
         cancu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cursor res = myDB.getALLData();
-                Log.i("chickening","Bickening");
-                if(res.getCount() == 0){
-                    //show message
-                    Log.i("inside if","khaaliwala");
-                    return;
-                }
 
-                StringBuffer buffer = new StringBuffer();
-                while (res.moveToNext()){
-                    Log.i("inside","cursor");
-                    buffer.append("Id : "+res.getString(0)+ "\n");
-                    buffer.append("Name : "+res.getString(1)+ "\n");
-                    buffer.append("Marks : "+res.getString(2)+ "\n\n");
-                    Log.i("inside","cursorEnd");
+               Intent intent = new Intent(MainActivity.this, Testlist.class);
+               startActivity(intent);
 
-
-
-                }
-                Log.i("outside","whileloop");
-                //show data
-
-                Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -144,26 +136,33 @@ public class MainActivity extends AppCompatActivity
     private void AddData() {
         btnAddwa.setOnClickListener(new View.OnClickListener() {
             @Override
+
+
             public void onClick(View v) {
-                boolean isInserted = myDB.insertData(doctitle.getText().toString(),amount.getText().toString(),ImagetoByte(img1));
-                if(isInserted == true){
-                    Toast.makeText(MainActivity.this, "Data inserted!", Toast.LENGTH_SHORT).show();
-                }else
-                {
-                    Toast.makeText(MainActivity.this, "Data not Inserted", Toast.LENGTH_SHORT).show();
+                try {
+                    boolean isInserted = myDB.insertData(doctitle.getText().toString(), amount.getText().toString(), ImagetoByte(img1));
+                    if (isInserted == true) {
+                        Toast.makeText(MainActivity.this, "Data inserted!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Data not Inserted", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this, "insert Full details!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             private byte[] ImagetoByte(ImageView img1) {
                     Bitmap bitmap = ((BitmapDrawable)img1.getDrawable()).getBitmap();
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byte[] byteArray = stream.toByteArray();
                     return byteArray;
 
             }
 
         });
+
 
     }
 
