@@ -46,8 +46,9 @@ public class MainActivity extends AppCompatActivity
     public static final int REQUEST_CAPTURE= 1;
     ImageView img1;
     DatabaseHelper myDB;
-
     Button btnAddwa,cancu;
+    private static final int PICK_IMAGES = 1;
+    Uri imageuri;
 
     int year_x,month_x,day_x;
     static final int DILOG_ID = 0;
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 }catch (Exception e){
                     e.printStackTrace();
-                    Toast.makeText(MainActivity.this, "insert Full details!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Insert Full details!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -197,13 +198,32 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==REQUEST_CAPTURE){
-            Bundle extras = data.getExtras();
-            Bitmap photo = (Bitmap)extras.get("data");
-            img1.setImageBitmap(photo);
+
+        try {
+            if(requestCode==REQUEST_CAPTURE){
+                Bundle extras = data.getExtras();
+                Bitmap photo = (Bitmap)extras.get("data");
+                img1.setImageBitmap(photo);
+                Log.i("sat1","completed1");
+            }
+
+            else if (requestCode==PICK_IMAGES){
+                imageuri = data.getData();
+                img1.setImageURI(imageuri);
+                Log.i("sat2","completed2");
+            }
+            
+            else {
+                Toast.makeText(activityA, "Something Went Wrong", Toast.LENGTH_SHORT).show();
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Toast.makeText(this, "Try Again!", Toast.LENGTH_SHORT).show();
         }
     }
-    //--------Camera API ka CODE khatam------------//
+    //--------Camera API ka CODE khatam-------------//
 
     //--------Date Picker ka CODE------------//
 
@@ -250,6 +270,16 @@ public class MainActivity extends AppCompatActivity
     {
         Intent browserIntent  = new Intent(Intent.ACTION_VIEW, Uri.parse("http://"+url1.getText()));
         startActivity(browserIntent);
+    }
+
+
+    public void opgal(View view) {
+        openGallery();
+    }
+
+    private void openGallery() {
+       Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGES);
     }
 
 
