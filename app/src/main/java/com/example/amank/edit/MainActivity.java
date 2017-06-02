@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity
     ImageView img1;
     DatabaseHelper myDB;
     Button btnAddwa,cancu;
-    private static final int PICK_IMAGES = 1;
+    private static final int PICK_IMAGES = 100;
     Uri imageuri;
 
     int year_x,month_x,day_x;
@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity
           }
       });
       //--------Spinner ka Code khatam----------//
+
         AddData();
         showToast();
         activityA = this;
@@ -117,6 +118,8 @@ public class MainActivity extends AppCompatActivity
 
     }       //--------Idher OnCreate method khatam-------------//
 
+
+    //--------Cancel Button ka CODE------------//
 
     public static MainActivity getInstance(){
         return activityA;
@@ -133,6 +136,9 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
+    //--------Cancel Button ka CODE Khatam------------//
+
+    //--------Save Data ka CODE------------//
 
     private void AddData() {
         btnAddwa.setOnClickListener(new View.OnClickListener() {
@@ -164,9 +170,8 @@ public class MainActivity extends AppCompatActivity
 
         });
 
-
     }
-
+    //--------Save Data ka CODE Khatam------------//
 
 
     //--------Camera API ka CODE------------//
@@ -191,7 +196,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void dabaya(View view) {
-        Toast.makeText(this, "Camera chalu hone wala hai", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Camera Started", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(i,REQUEST_CAPTURE);
     }
@@ -204,23 +209,18 @@ public class MainActivity extends AppCompatActivity
                 Bundle extras = data.getExtras();
                 Bitmap photo = (Bitmap)extras.get("data");
                 img1.setImageBitmap(photo);
-                Log.i("sat1","completed1");
             }
 
-            else if (requestCode==PICK_IMAGES){
+            if (requestCode==PICK_IMAGES){
                 imageuri = data.getData();
                 img1.setImageURI(imageuri);
-                Log.i("sat2","completed2");
             }
-            
-            else {
-                Toast.makeText(activityA, "Something Went Wrong", Toast.LENGTH_SHORT).show();
-            }
+
         }
         catch (Exception e)
         {
             e.printStackTrace();
-            Toast.makeText(this, "Try Again!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Something Went Wrong Try Again!", Toast.LENGTH_SHORT).show();
         }
     }
     //--------Camera API ka CODE khatam-------------//
@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity
             month_x= month + 1;
             day_x=dayOfMonth;
 
-            Toast.makeText(MainActivity.this,"Ye Date tune dala "+day_x +"/"+ month_x +"/" + year_x,Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this,"Date Entered: "+day_x +"/"+ month_x +"/" + year_x,Toast.LENGTH_LONG).show();
 
             dd.setText(day_x +"/"+ month_x +"/" + year_x);
         }
@@ -271,7 +271,10 @@ public class MainActivity extends AppCompatActivity
         Intent browserIntent  = new Intent(Intent.ACTION_VIEW, Uri.parse("http://"+url1.getText()));
         startActivity(browserIntent);
     }
+    //--------URL Button ka CODE Khatam------------//
 
+
+    //--------Open Gallery ka CODE------------//
 
     public void opgal(View view) {
         openGallery();
@@ -281,7 +284,7 @@ public class MainActivity extends AppCompatActivity
        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGES);
     }
-
+    //--------Open Gallery ka CODE Khatam------------//
 
 }   //---ye main activity ka bracket-------//
 
